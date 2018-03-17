@@ -32,19 +32,27 @@ $conninfo = array(//管理数据库
 
 $db_map=array(
 	'tongji'=>array(
-        'host'=>'xdm406066684.my3w.com',
-        'user'=>'xdm406066684',
-        'pass'=>'1234FDSA',
-        'dtbs'=>'xdm406066684_db',
-		'charts'=>'utf8',
+            'host'=>'xdm406066684.my3w.com',
+            'user'=>'xdm406066684',
+            'pass'=>'1234FDSA',
+            'dtbs'=>'xdm406066684_db',
+            'charts'=>'utf8',
 	),
+        /*
+        'mpay'=>array(
+            'host'=>'xdm406066684.my3w.com',
+            'user'=>'xdm406066684',
+            'pass'=>'1234FDSA',
+            'dtbs'=>'xdm406066684_db',
+            'charts'=>'utf8',
+        )*/
 	'mpay'=>array(
-        'host'=>'xdm406066684.my3w.com',
-        'user'=>'xdm406066684',
-        'pass'=>'1234FDSA',
-        'dtbs'=>'xdm406066684_db',
-		'charts'=>'utf8',
-	),
+            'host'=>'mpay.yituozhifu.com',
+            'user'=>'yaxixi',
+            'pass'=>'1234rewq',
+            'dtbs'=>'mpay',
+            'charts'=>'utf8',
+        ),
 );
 
 function db($dbname){

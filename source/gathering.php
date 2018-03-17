@@ -5,20 +5,22 @@ include_once '../include/network.php';
 
 check_login();
 
+$uid = $_SESSION[SESSION_USERID];
+$gathering = $_REQUEST['gathering'];
 $orderid = $_REQUEST["orderid"];
-if ($orderid)
+
+if ($gathering)
 {
     if ($orderid == "")
-        die('订单号不能为空!');
+        echo "收款必须有订单号！";
 
     // 前端 js 调用收款操作
     $id = $_REQUEST["id"];
-    $uid = $_SESSION[SESSION_USERID];
-    $price = $_REQUEST['price'];
+    $price = $_REQUEST['money'];
     $token = 'A9Y3A00J8001';
 
     // 进行验证
-    $key = strtolower(md5($orderid. $id. $uid. $token));
+    $key = strtolower(md5($orderid. $uid. $token));
     $params = array(
         'orderid'=>$orderid,
         'id'=>$id,
@@ -27,7 +29,7 @@ if ($orderid)
         'key'=>$key,
     );
 
-    $ret = curl_post("http://www.axixi.top/gathering.php", $params);
+    $ret = curl_post("http://mpay.yituozhifu.com/mpay/gathering.php", $params);
     if ($ret)
     {
         $ret = json_decode($ret, 1);
@@ -51,6 +53,18 @@ $price = trim($_REQUEST['price']);
 $clientTime = trim($_REQUEST['clientTime']);
 
 db('mpay');
+if ($orderid)
+{
+    // 查询订单信息
+    $sql = "select * from precharge where orderid='$orderid'";
+    $res = mysql_query($sql);
+    while($row = mysql_fetch_assoc($res)){
+        $order_arr[] = $row;
+    }
+
+    echo $sql . json_encode($order_arr);
+}
+
 $sql_cond = "status=0 and ";
 $like_char = "%";
 if ($userid)
@@ -69,6 +83,7 @@ if ($sql_cond != "")
 }
 
 $Smarty->assign(array(
-	'data'=>$data_arr,
-	)
+    'data'=>$data_arr,
+    'order_data'=>$order_arr,
+    )
 );
