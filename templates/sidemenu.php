@@ -20,9 +20,8 @@
     d.config.target = "mainframe";
     d.add(1,-1,<?php echo "'".TITLE."'" ?>,'welcome.php');
     d.add(++treeId,1,'运营数据');
-    <?php if(show_a($priv,'tongji_main')) {?>d.add(subId,treeId,'对比分析','webroot/index.php?s=dau');<?php }?>
+    //<?php if(show_a($priv,'tongji_main')) {?>d.add(subId,treeId,'对比分析','webroot/index.php?s=dau');<?php }?>
     d.add(++treeId,1,'GM工具');
-    <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'玩家信息查询','webroot/index.php?s=user_info');<?php }?>
     <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'收款','webroot/index.php?s=gathering');<?php }?>
     // 10000以上的编号给系统设置用
     d.add(10000,1,'系统设置');
