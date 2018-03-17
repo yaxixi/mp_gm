@@ -47,18 +47,20 @@ function gathering_by_order(){
 <table cellpadding="20" cellspacing="10">
 	<tr align="center">
 		<th>订单号</th>
-                <th>用户ID</th>
+        <th>用户ID</th>
 		<th>订单时间</th>
-                <th>收款账号</th>
+        <th>订单金额</th>
+        <th>收款账号</th>
 		<th>状态</th>
 		<th>操作</th>
-		<th>金额</th>
+		<th>补单金额</th>
 	</tr>
 	<{foreach from = $order_data key=key item = val}>
             <tr align="center">
                 <td><span id="orderid"><{$val.orderid}></span></td>
                 <td><{$val.orderuid}></td>
                 <td><{$val.time}></td>
+                <td><{$val.price}></td>
                 <td><{$val.account}></td>
                 <td><{$val.status}></td>
                 <td><button type="button" onClick=gathering_by_order()>收款</button></td>

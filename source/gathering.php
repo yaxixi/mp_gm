@@ -62,7 +62,26 @@ if ($orderid)
         $order_arr[] = $row;
     }
 
-    echo $sql . json_encode($order_arr);
+    if ($order_arr && $order_arr[0])
+    {
+        $order_arr[0]['time'] = date('Y/m/d h:i', $order_arr[0]['time']);
+        if ($order_arr[0]['status'] == "0")
+            $order_arr[0]['status'] = "未支付";
+        else
+        {
+            $order_arr[0]['status'] = "已支付";
+
+            // 读 charge 表
+            $sql = "select * from charge where orderid='$orderid'";
+            $res = mysql_query($sql);
+            while($row = mysql_fetch_assoc($res)){
+                $order_arr[0]['price'] = $row['price'];
+                if ($row['status'] == "1")
+                    $order_arr[0]['status'] = "支付已关闭";
+
+            }
+        }
+    }
 }
 
 $sql_cond = "status=0 and ";
