@@ -100,9 +100,9 @@ if ($sql_cond != "")
         $data_arr[] = $row;
     }
 }
-
 $Smarty->assign(array(
     'data'=>$data_arr,
     'order_data'=>$order_arr,
     )
 );
+?>

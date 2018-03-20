@@ -14,7 +14,8 @@ if (!$_SESSION[SESSION_USERID]) {
 }
 
 	include(CORE_DIR.'/source/'.$sfile.'.php');
+
     $Smarty->assign('sfile',$sfile);
     $Smarty->display(CORE_DIR.'/view/'.$sfile.'.htm');
-    //$Smarty->display('../view/'.$sfile.'.htm');
+//$Smarty->display('../view/'.$sfile.'.htm');
 ?>

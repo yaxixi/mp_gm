@@ -99,7 +99,7 @@ function check_login() {
         session_start();
 
 	if (!$_SESSION[SESSION_USERID]) {
-        echo "<script type=\"text/javascript\">alert('请登录！');top.location='../../index.php';</script>";
+        echo "<script type=\"text/javascript\">alert('请登录！');top.location='index.php';</script>";
         exit;
 	}
 }

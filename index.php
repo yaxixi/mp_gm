@@ -63,6 +63,7 @@ function login_post() {
 		$_SESSION[SESSION_USERID] = $row['uid'];
 		$_SESSION[SESSION_USERNAME] = $row['username'];
 		//$_SESSION[SESSION_USERGROUP] = $row['usergroup_id'];
+
 		header("location:admin.php");
 	} else {
 		echo "<script type=\"text/javascript\">alert('用户名或者密码错误，登录失败2！');history.go(-1);</script>";
