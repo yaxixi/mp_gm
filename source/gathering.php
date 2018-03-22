@@ -84,12 +84,14 @@ if ($orderid)
     }
 }
 
-$sql_cond = "status=0 and ";
+$sql_cond = "";
 $like_char = "%";
 if ($userid)
-    $sql_cond = $sql_cond . "userid like '$userid$like_char' ";
+    $sql_cond = $sql_cond . "userid like '$userid$like_char' and ";
 if ($price)
-    $sql_cond = $sql_cond . "and price=$price ";
+    $sql_cond = $sql_cond . "price=$price and ";
+if ($sql_cond != "")
+    $sql_cond = $sql_cond . "status=0";
 
 if ($sql_cond != "")
 {
