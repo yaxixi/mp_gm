@@ -122,6 +122,7 @@ define('SITE_URL',CORE_DIR.'/webroot');
 define('COMM_PATH', FUNCTION_DIR."/php_compress/comm.txt");//comm.txt 文件路径
 define('MAP_PATH', FUNCTION_DIR."/php_compress/map.txt");//map.txt 文件路径
 define('SEND_PATH', FUNCTION_DIR."/php_compress/send.lua");//send.lua 文件路径
+define('MPAY_URL', "http://mpay.yituozhifu.com/");
 
 $now = time();
 $today = date("Y-m-d");

@@ -18,7 +18,7 @@ if (isset($_REQUEST["oper"]))
         'func'=>'switch_account_status',
     );
 
-    $ret = curl_post("http://mpay.yituozhifu.com/mpay/gm_oper.php", $params);
+    $ret = curl_post(MPAY_URL . "mpay/gm_oper.php", $params);
     if ($ret)
     {
         $ret = json_decode($ret, 1);

@@ -6,6 +6,7 @@ include_once '../include/network.php';
 check_login();
 
 $uid = $_SESSION[SESSION_USERID];
+$return_money = $_REQUEST['return_money'];
 $gathering = $_REQUEST['gathering'];
 $orderid = $_REQUEST["orderid"];
 
@@ -29,7 +30,35 @@ if ($gathering)
         'key'=>$key,
     );
 
-    $ret = curl_post("http://mpay.yituozhifu.com/mpay/gathering.php", $params);
+    $ret = curl_post(MPAY_URL . "mpay/gathering.php", $params);
+    if ($ret)
+    {
+        $ret = json_decode($ret, 1);
+        if ($ret && $ret['ret'] == 0)
+        {
+            die("OK");
+        }
+        else
+        {
+            if ($ret && $ret['msg'])
+                die($ret['msg']);
+            else
+                die('Operation failed.');
+        }
+    }
+    return;
+}
+
+if ($return_money)
+{
+    // 前端 js 调用操作
+    $id = $_REQUEST["id"];
+    $params = array(
+        'id'=>$id,
+        'func'=>'return_money',
+    );
+
+    $ret = curl_post(MPAY_URL . "mpay/gm_oper.php", $params);
     if ($ret)
     {
         $ret = json_decode($ret, 1);
@@ -49,7 +78,7 @@ if ($gathering)
 }
 
 $userid = trim($_REQUEST['userid']);
-$price = trim($_REQUEST['price']);
+$status = trim($_REQUEST['status']);
 $clientTime = trim($_REQUEST['clientTime']);
 
 db('mpay');
@@ -88,9 +117,11 @@ $sql_cond = "";
 $like_char = "%";
 if ($userid)
     $sql_cond = $sql_cond . "userid like '$userid$like_char' and ";
-if ($price)
-    $sql_cond = $sql_cond . "price=$price and ";
-if ($sql_cond != "")
+if ($clientTime)
+    $sql_cond = $sql_cond . "clientTime like '$clientTime$like_char' and ";
+if ($_REQUEST['status'] != "")
+    $sql_cond = $sql_cond . "status=$status";
+else if ($sql_cond != "")
     $sql_cond = $sql_cond . "status=0";
 
 if ($sql_cond != "")
