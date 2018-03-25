@@ -8,7 +8,32 @@ check_login();
 $uid = $_SESSION[SESSION_USERID];
 $return_money = $_REQUEST['return_money'];
 $gathering = $_REQUEST['gathering'];
+$refresh_warning = $_REQUEST['refresh_warning'];
 $orderid = $_REQUEST["orderid"];
+
+if ($refresh_warning)
+{
+    $params = array(
+        'func'=>'charge_exception_count',
+    );
+    $ret = curl_post(MPAY_URL . "mpay/gm_oper.php", $params);
+    if ($ret)
+    {
+        $ret = json_decode($ret, 1);
+        if ($ret && $ret['ret'] == 0)
+        {
+            die($ret['count']);
+        }
+        else
+        {
+            if ($ret && $ret['msg'])
+                die($ret['msg']);
+            else
+                die('Operation failed.');
+        }
+    }
+    return;
+}
 
 if ($gathering)
 {
@@ -126,7 +151,7 @@ else if ($sql_cond != "")
 
 if ($sql_cond != "")
 {
-    $sql = "select * from charge_exception where " . $sql_cond;
+    $sql = "select * from charge_exception where " . $sql_cond . " order by clientTime desc limit 50";
     $res = mysql_query($sql);
 
     while($row = mysql_fetch_assoc($res)){
