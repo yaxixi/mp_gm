@@ -22,8 +22,9 @@
     d.add(++treeId,1,'运营数据');
     //<?php if(show_a($priv,'tongji_main')) {?>d.add(subId,treeId,'对比分析','webroot/index.php?s=dau');<?php }?>
     d.add(++treeId,1,'GM工具');
-    <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'帐号管理','webroot/index.php?s=alipay_account');<?php }?>
-    <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'收款','webroot/index.php?s=gathering');<?php }?>
+    <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'帐号管理','webroot/index.php?s=alipay_account&status=0');<?php }?>
+    <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'订单查询','webroot/index.php?s=order');<?php }?>
+    <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'收款','webroot/index.php?s=gathering&status=0');<?php }?>
     // 10000以上的编号给系统设置用
     d.add(10000,1,'系统设置');
     d.add(20000,10000,'权限管理');

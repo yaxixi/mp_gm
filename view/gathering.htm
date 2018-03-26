@@ -78,7 +78,7 @@ window.setInterval(refresh_warning, 5000);
 	</tr>
 	<{foreach from = $order_data key=key item = val}>
             <tr align="center">
-                <td><span id="orderid"><{$val.orderid}></span></td>
+                <td><span id="orderid"><{$val.tradeno}></span></td>
                 <td><{$val.orderuid}></td>
                 <td><{$val.time}></td>
                 <td><{$val.price}></td>

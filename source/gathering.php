@@ -110,7 +110,7 @@ db('mpay');
 if ($orderid)
 {
     // 查询订单信息
-    $sql = "select * from precharge where orderid='$orderid'";
+    $sql = "select * from precharge where tradeno='$orderid'";
     $res = mysql_query($sql);
     while($row = mysql_fetch_assoc($res)){
         $order_arr[] = $row;
@@ -126,7 +126,7 @@ if ($orderid)
             $order_arr[0]['status'] = "已支付";
 
             // 读 charge 表
-            $sql = "select * from charge where orderid='$orderid'";
+            $sql = "select * from charge where tradeno='$orderid'";
             $res = mysql_query($sql);
             while($row = mysql_fetch_assoc($res)){
                 $order_arr[0]['price'] = $row['price'];
