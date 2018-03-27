@@ -23,7 +23,7 @@ if ($orderid)
     $sql = "select precharge.*, charge.status as charge_status, charge.price as charge_price from precharge left join charge on precharge.tradeno = charge.tradeno " . $sql_cond;
     $res = mysql_query($sql);
     while($row = mysql_fetch_assoc($res)){
-        $row['time'] = date('Y/m/d h:i', $row['time']);
+        $row['time'] = date('Y/m/d H:i', $row['time']);
         $row['price'] = $row['charge_price'];
         if ($row['status'] == "0")
             $row['status'] = "未支付";

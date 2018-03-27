@@ -130,7 +130,7 @@ if ($orderid)
 
     if ($order_arr && $order_arr[0])
     {
-        $order_arr[0]['time'] = date('Y/m/d h:i', $order_arr[0]['time']);
+        $order_arr[0]['time'] = date('Y/m/d H:i', $order_arr[0]['time']);
         if ($order_arr[0]['status'] == "0")
             $order_arr[0]['status'] = "未支付";
         else
