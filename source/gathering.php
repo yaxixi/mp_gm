@@ -1,5 +1,8 @@
 <?php
 error_reporting(0);
+/*error_reporting(E_ALL);
+    ini_set('display_errors', 'On');
+ini_set('display_startup_errors','On');*/
 include_once '../include/config.php';
 include_once '../include/network.php';
 
@@ -159,7 +162,10 @@ if ($clientTime)
 if ($_REQUEST['status'] != "")
     $sql_cond = $sql_cond . "status=$status";
 else if ($sql_cond != "")
+{
     $sql_cond = $sql_cond . "status=0";
+    $status = 0;
+}
 
 if ($sql_cond != "")
 {
@@ -170,11 +176,13 @@ if ($sql_cond != "")
         $data_arr[] = $row;
     }
 }
+
 $Smarty->assign(array(
     'data'=>$data_arr,
     'order_data'=>$order_arr,
     'page'=>$page,
     'page_size'=>$page_size,
+    'status'=>$status,
     )
 );
 ?>

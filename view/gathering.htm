@@ -134,6 +134,7 @@ window.setInterval(refresh_warning, 5000);
 	<{/foreach}>
 </table>
 </div>
-<{ $page_size|page_ex:$page:'s=gathering' }>
+<{ assign var="url" value="s=gathering&status="|cat:$status }>
+<{ $page_size|page_ex:$page:$url }>
 
 <{include file="./footer.tpl"}>
