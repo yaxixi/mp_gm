@@ -1,14 +1,17 @@
 <{include file="./header.tpl"}>
 <script LANGUAGE="JavaScript">
-function gathering(id){
+function gathering(id, money){
     var orderid = "";
     if (document.getElementById('orderid'))
         orderid = document.getElementById('orderid').innerHTML;
     console.log("gathering : %d, orderid : %s", id, orderid);
-    $.get(window.location.origin + "/mpay_gm/source/gathering.php?gathering=1&orderid=" + orderid + "&id=" + id, function(result){
+    $.get(window.location.origin + "/mpay_gm/source/gathering.php?gathering=1&orderid=" + orderid + "&id=" + id + "&money=" + money, function(result){
         var ret = "操作成功";
         if (result == "OK")
+        {
             alert(ret);
+            window.location = window.location.origin + "/mpay_gm/webroot/index.php?s=gathering&orderid=" + orderid + "&status=0";
+        }
         else
             alert(result);
     });
@@ -25,17 +28,24 @@ function gathering_by_order(){
     $.get(window.location.origin + "/mpay_gm/source/gathering.php?gathering=1&orderid=" + orderid + "&money=" + money, function(result){
         var ret = "操作成功";
         if (result == "OK")
+        {
             alert(ret);
+            window.location = window.location.origin + "/mpay_gm/webroot/index.php?s=gathering&orderid=" + orderid + "&status=0";
+        }
         else
             alert(result);
     });
 }
 
-function return_money(id){
-    $.get(window.location.origin + "/mpay_gm/source/gathering.php?return_money=1&id=" + id, function(result){
+function return_money(id,userid,price){
+    console.log("return_money " + userid + " price:" + price);
+    $.get(window.location.origin + "/mpay_gm/source/gathering.php?return_money=1&id=" + id + "&userid=" + userid + "&price=" + price, function(result){
         var ret = "操作成功";
         if (result == "OK")
+        {
             alert(ret);
+            window.location = window.location.origin + "/mpay_gm/webroot/index.php?s=gathering&status=0";
+        }
         else
             alert(result);
     });
@@ -91,7 +101,7 @@ window.setInterval(refresh_warning, 5000);
 </table>
 </div>
 <div>
-</br>
+<br/>
 <h4 id=warning_count>未到账记录列表（当日未处理异常单数量：0）</h4>
 <table cellpadding="20" cellspacing="10">
 	<tr align="center">
@@ -115,8 +125,8 @@ window.setInterval(refresh_warning, 5000);
                 <td><{$val.clientTime}></td>
                 <{if $val.status == "0"}>
                     <td>未处理</td>
-                    <td><button type="button" onClick=gathering(<{$val.id}>)>收款</button></td>
-                    <td><button type="button" onClick=return_money(<{$val.id}>)>退款</button></td>
+                    <td><button type="button" onClick="gathering(<{$val.id}>,'<{$val.price}>')">收款</button></td>
+                    <td><button type="button" onClick="return_money(<{$val.id}>,'<{$val.userid}>','<{$val.price}>')">退款</button></td>
                 <{else}>
                     <td>已退款</td>
                 <{/if}>
@@ -124,5 +134,6 @@ window.setInterval(refresh_warning, 5000);
 	<{/foreach}>
 </table>
 </div>
+<{ $page_size|page_ex:$page:'s=gathering' }>
 
 <{include file="./footer.tpl"}>

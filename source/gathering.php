@@ -10,6 +10,10 @@ $return_money = $_REQUEST['return_money'];
 $gathering = $_REQUEST['gathering'];
 $refresh_warning = $_REQUEST['refresh_warning'];
 $orderid = $_REQUEST["orderid"];
+$page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
+
+$page_size = 20;
+$start_index = ($page - 1) * $page_size;
 
 if ($refresh_warning)
 {
@@ -61,6 +65,9 @@ if ($gathering)
         $ret = json_decode($ret, 1);
         if ($ret && $ret['ret'] == 0)
         {
+            $_SESSION["result"] = 'OK';
+            $request = $orderid . "|" . $price . "|" . $id;
+            history_add("gathering", $request);
             die("OK");
         }
         else
@@ -83,12 +90,17 @@ if ($return_money)
         'func'=>'return_money',
     );
 
+    $userid = $_REQUEST['userid'];
+    $price = $_REQUEST['price'];
     $ret = curl_post(MPAY_URL . "mpay/gm_oper.php", $params);
     if ($ret)
     {
         $ret = json_decode($ret, 1);
         if ($ret && $ret['ret'] == 0)
         {
+            $_SESSION["result"] = 'OK';
+            $request = $userid . "|" . $price . "|" . $id;
+            history_add("return_money", $request);
             die("OK");
         }
         else
@@ -151,7 +163,7 @@ else if ($sql_cond != "")
 
 if ($sql_cond != "")
 {
-    $sql = "select * from charge_exception where " . $sql_cond . " order by clientTime desc limit 50";
+    $sql = "select * from charge_exception where " . $sql_cond . " order by clientTime desc limit $start_index, $page_size";
     $res = mysql_query($sql);
 
     while($row = mysql_fetch_assoc($res)){
@@ -161,6 +173,8 @@ if ($sql_cond != "")
 $Smarty->assign(array(
     'data'=>$data_arr,
     'order_data'=>$order_arr,
+    'page'=>$page,
+    'page_size'=>$page_size,
     )
 );
 ?>

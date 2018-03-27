@@ -24,6 +24,9 @@ if (isset($_REQUEST["oper"]))
         $ret = json_decode($ret, 1);
         if ($ret && $ret['ret'] == 0)
         {
+            $_SESSION["result"] = 'OK';
+            $request = $account . "|" . $oper;
+            history_add("account_oper", $request);
             die("OK");
         }
         else
