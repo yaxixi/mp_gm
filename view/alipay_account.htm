@@ -1,9 +1,6 @@
 <{include file="./header.tpl"}>
 <script LANGUAGE="JavaScript">
-function operation(oper){
-    var account = "";
-    if (document.getElementById('account'))
-        account = document.getElementById('account').innerHTML;
+function operation(account, oper){
     console.log("account : %s, oper : %s", account, oper);
     $.get(window.location.origin + "/mpay_gm/source/alipay_account.php?oper=" + oper + "&account=" + account, function(result){
         var ret = "操作成功";
@@ -43,9 +40,9 @@ function operation(oper){
                 <td><{$val.money}></td>
                 <td><{$val.status_str}></td>
                 <{if $val.status == 0}>
-                    <td><button type="button" onClick=operation(1)>下架</button></td>
+                <td><button type="button" onClick="operation('<{$val.account}>',1)">下架</button></td>
                 <{else}>
-                    <td><button type="button" onClick=operation(0)>上架</button></td>
+                    <td><button type="button" onClick="operation('<{$val.account}>',0)">上架</button></td>
                 <{/if}>
             </tr>
 	<{/foreach}>
