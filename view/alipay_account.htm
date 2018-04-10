@@ -13,6 +13,20 @@ function operation(account, oper){
             alert(result);
     });
 }
+
+function delete_account(account){
+    console.log("delete_account account : %s", account);
+    $.get(window.location.origin + "/mpay_gm/source/alipay_account.php?delete_account=1" + "&account=" + account, function(result){
+        var ret = "操作成功";
+        if (result == "OK")
+        {
+            alert(ret);
+            window.location = window.location.origin + "/mpay_gm/webroot/index.php?s=alipay_account&status=0";
+        }
+        else
+            alert(result);
+    });
+}
 </script>
 
 <div class='input'>
@@ -30,6 +44,7 @@ function operation(account, oper){
             <th>账号</th>
             <th>账号ID</th>
             <th>收款金额</th>
+            <th>成功率</th>
             <th>状态</th>
             <th>操作</th>
 	</tr>
@@ -38,11 +53,12 @@ function operation(account, oper){
                 <td><span id="account"><{$val.account}></span></td>
                 <td><{$val.accountid}></td>
                 <td><{$val.money}></td>
+                <td><{$val.charge_count}>/<{$val.precharge_count}>(<{$val.suc}>)</td>
                 <td><{$val.status_str}></td>
                 <{if $val.status == 0}>
-                <td><button type="button" onClick="operation('<{$val.account}>',1)">下架</button></td>
+                <td><button type="button" onClick="operation('<{$val.account}>',1)">下架</button><button type="button" onClick="delete_account('<{$val.account}>')">删除</button></td>
                 <{else}>
-                    <td><button type="button" onClick="operation('<{$val.account}>',0)">上架</button></td>
+                    <td><button type="button" onClick="operation('<{$val.account}>',0)">上架</button><button type="button" onClick="delete_account('<{$val.account}>')">删除</button></td>
                 <{/if}>
             </tr>
 	<{/foreach}>

@@ -20,7 +20,7 @@ if ($orderid)
 }
 
     // 查询订单信息
-    $sql = "select precharge.*, charge.status as charge_status, charge.price as charge_price from precharge left join charge on precharge.tradeno = charge.tradeno " . $sql_cond;
+    $sql = "select precharge.*, charge.status as charge_status, charge.price as charge_price, charge.clientTime as clientTime, charge.time as chargeTime from precharge left join charge on precharge.tradeno = charge.tradeno " . $sql_cond;
     $res = mysql_query($sql);
     while($row = mysql_fetch_assoc($res)){
         $row['time'] = date('Y/m/d H:i', $row['time']);
@@ -30,9 +30,13 @@ if ($orderid)
         else if ($row['charge_status'] == "1")
         {
             $row['status'] = "支付已关闭";
+            $row['chargeTime'] = date('Y/m/d H:i', $row['chargeTime']);
         }
         else if ($row['charge_status'] === "0")
+        {
             $row['status'] = "已支付";
+            $row['chargeTime'] = date('Y/m/d H:i', $row['chargeTime']);
+        }
         $order_arr[] = $row;
     }
 

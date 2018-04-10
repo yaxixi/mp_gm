@@ -20,11 +20,19 @@ while($row = mysql_fetch_assoc($res)){
    $exception_money = $row['exception_money'] ? $row['exception_money'] : 0;
 }
 
+$sql = "select sum(price) as total_price, orderuid from charge where time >= $time group by orderuid order by total_price desc";
+$res = mysql_query($sql);
+while($row = mysql_fetch_assoc($res)){
+    $row['total_price'] = round($row['total_price'], 2);
+    $data[] = $row;
+}
+
 $Smarty->assign(
     array(
     'exception_money'=>$exception_money,
     'today_money'=>$today_money,
     'today_real_money'=>$today_real_money,
+    'data'=>$data,
     )
 );
 ?>

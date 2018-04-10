@@ -112,8 +112,8 @@ function check_priv($str) {
 	global $conn;
 	if(!isset($_SESSION))
         session_start();
-	$id = $_SESSION[SESSION_USERID];
-	$query = "select priv from user where uid='$id'";
+	$id = $_SESSION[SESSION_GID];
+	$query = "select priv from user where id=$id";
 	$result = mysql_query($query,$conn);
 	$row = mysql_fetch_array($result);
 	$priv = $row['priv'];

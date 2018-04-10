@@ -20,7 +20,8 @@
     d.config.target = "mainframe";
     d.add(1,-1,<?php echo "'".TITLE."'" ?>,'welcome.php');
     d.add(++treeId,1,'运营数据');
-    <?php if(show_a($priv,'tongji_main')) {?>d.add(subId,treeId,'充值数据','webroot/index.php?s=dau');<?php }?>
+    <?php if(show_a($priv,'tongji_main')) {?>d.add(subId++,treeId,'充值数据','webroot/index.php?s=dau');<?php }?>
+    <?php if(show_a($priv,'tongji_main')) {?>d.add(subId++,treeId,'每日充值','webroot/index.php?s=account_charge');<?php }?>
     d.add(++treeId,1,'客服工具');
     <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'帐号管理','webroot/index.php?s=alipay_account&status=0');<?php }?>
     <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'订单查询','webroot/index.php?s=order');<?php }?>

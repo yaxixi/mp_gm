@@ -20,4 +20,20 @@
     </table>
 </div>
 
+<div>
+    <div class="head_tp">下游充值数据</div>
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="25%" align="center">下游ID</td>
+            <td width="25%" align="center">充值金额</td>
+        </tr>
+        <{foreach from = $data key=key item = val}>
+            <tr align="center">
+                <td><{$val.orderuid}></span></td>
+                <td><{$val.total_price}></td>
+            </tr>
+	<{/foreach}>
+    </table>
+</div>
+
 <{include file="./footer.tpl"}>

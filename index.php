@@ -62,7 +62,7 @@ function login_post() {
 		mysql_query($query);
 		$_SESSION[SESSION_USERID] = $row['uid'];
 		$_SESSION[SESSION_USERNAME] = $row['username'];
-		//$_SESSION[SESSION_USERGROUP] = $row['usergroup_id'];
+		$_SESSION[SESSION_GID] = $row['id'];
 
 		header("location:admin.php");
 	} else {
@@ -73,7 +73,7 @@ function login_post() {
 function logout() {
 	unset($_SESSION[SESSION_USERID]);
 	unset($_SESSION[SESSION_USERNAME]);
-	//unset($_SESSION[SESSION_USERGROUP]);
+	unset($_SESSION[SESSION_GID]);
 	//session_destroy();
 	header("location:index.php");
 }

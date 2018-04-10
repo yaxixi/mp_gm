@@ -110,6 +110,7 @@ if (!get_magic_quotes_gpc()) {
 }
 
 define('SESSION_USERID',"game_userid");
+define('SESSION_GID',"game_id");
 define('SESSION_USERNAME',"game_username");
 define('SESSION_USERGROUP',"game_usergroup");
 define("ROOT",dirname(dirname(__FILE__))."/");//定义文件夹根目录
