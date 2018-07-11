@@ -2,35 +2,52 @@
 
 <div class="menu" align="center"></div>
 
+<div class='input'>
+	<form method="POST">
+	开始日期：<script type="text/javascript" src="../js/calendar.js"></script>
+            <input type="text" id="date" name="begin_date" value="" onclick="calendar.show(this);" size="11" maxlength="11" readonly="readonly" />
+        结束日期：<script type="text/javascript" src="../js/calendar.js"></script>
+            <input type="text" id="date" name="end_date" value="" onclick="calendar.show(this);" size="11" maxlength="11" readonly="readonly" />
+	<input type="submit" value="查询">
+	</form>
+</div>
+
 <div>
-    <div class="head_tp">统计概况</div>
+    <h4>统计概况</h4>
     <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
             <td width="25%" align="center">&nbsp;</td>
-            <td width="25%" align="center">费率收入</td>
-            <td width="25%" align="center">到账金额</td>
+            <td width="25%" align="center">转款金额</td>
             <td width="25%" align="center">未处理异常金额</td>
         </tr>
         <tr>
             <td align="center">今日</td>
-            <td align="center"><{$today_real_money}></td>
             <td align="center"><{$today_money}></td>
             <td align="center"><{$exception_money}></td>
         </tr>
+        <{if $date != '' }>
+        <tr>
+            <td align="center"><{$date}></td>
+            <td align="center"><{$date_money}></td>
+            <td align="center">0</td>
+        </tr>
+        <{/if}>
     </table>
 </div>
 
 <div>
-    <div class="head_tp">下游充值数据</div>
+    <h4>用户数据</h4>
     <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
-            <td width="25%" align="center">下游ID</td>
-            <td width="25%" align="center">充值金额</td>
+            <td width="25%" align="center">用户ID</td>
+            <td width="25%" align="center">转款金额</td>
+            <td width="25%" align="center">成功率</td>
         </tr>
         <{foreach from = $data key=key item = val}>
             <tr align="center">
                 <td><{$val.orderuid}></span></td>
                 <td><{$val.total_price}></td>
+                <td><{$val.charge_count}>/<{$val.precharge_count}>(<{$val.suc}>)</td>
             </tr>
 	<{/foreach}>
     </table>

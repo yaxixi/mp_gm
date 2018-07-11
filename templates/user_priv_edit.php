@@ -51,6 +51,8 @@ function clearall(obj) {
 					GM工具操作
 					<input type="checkbox" name="priv[]" value="log_manage"<?php show_checked($priv,'log_manage');?> />
 					日志查询
+                                        <input type="checkbox" name="priv[]" value="priv_vendor"<?php show_checked($priv,'priv_vendor');?> />
+					用户信息
 				</td>
 			</tr>
 			<tr>

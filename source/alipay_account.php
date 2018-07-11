@@ -10,8 +10,15 @@ check_login();
 
 $uid = $_SESSION[SESSION_USERID];
 $account = $_REQUEST['account'];
+$accountid = $_REQUEST['accountid'];
 $oper = $_REQUEST["oper"];
 $delete_account = (int)$_REQUEST['delete_account'];
+$set_max_money = (int)$_REQUEST['set_max_money'];
+$set_demo = (int)$_REQUEST['set_demo'];
+$page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
+
+$page_size = 20;
+$start_index = ($page - 1) * $page_size;
 
 if (isset($_REQUEST["oper"]))
 {
@@ -44,6 +51,43 @@ if (isset($_REQUEST["oper"]))
     return;
 }
 
+if ($accountid != '')
+{
+    if ($uid == "admin")
+        $uid = 'A9D9113YR003';
+
+    // 前端 js 调用操作
+    $params = array(
+        'account'=>$account,
+        'accountid'=>$accountid,
+        'uid'=>$uid,
+        'func'=>'add_account',
+    );
+
+    $ret = curl_post(MPAY_URL . "mpay/gm_oper.php", $params);
+    if ($ret)
+    {
+        $ret = json_decode($ret, 1);
+        if ($ret && $ret['ret'] == 0)
+        {
+            $_SESSION["result"] = 'OK';
+            $request = $account;
+            history_add("add_account", $request);
+            alert_back('操作成功');
+            //redirect()
+            //die("OK");
+        }
+        else
+        {
+            if ($ret && $ret['msg'])
+                die($ret['msg']);
+            else
+                die('Operation failed.');
+        }
+    }
+    return;
+}
+
 if ($delete_account == 1)
 {
     // 前端 js 调用操作
@@ -61,6 +105,68 @@ if ($delete_account == 1)
             $_SESSION["result"] = 'OK';
             $request = $account;
             history_add("delete_account", $request);
+            die("OK");
+        }
+        else
+        {
+            if ($ret && $ret['msg'])
+                die($ret['msg']);
+            else
+                die('Operation failed.');
+        }
+    }
+    return;
+}
+
+if ($set_demo == 1)
+{
+    // 前端 js 调用操作
+    $params = array(
+        'account'=>$account,
+        'demo'=>$_REQUEST['demo'],
+        'func'=>'set_account_demo',
+    );
+
+    $ret = curl_post(MPAY_URL . "mpay/gm_oper.php", $params);
+    if ($ret)
+    {
+        $ret = json_decode($ret, 1);
+        if ($ret && $ret['ret'] == 0)
+        {
+            $_SESSION["result"] = 'OK';
+            $request = $account;
+            history_add("set_account_demo", $request);
+            die("OK");
+        }
+        else
+        {
+            if ($ret && $ret['msg'])
+                die($ret['msg']);
+            else
+                die('Operation failed.');
+        }
+    }
+    return;
+}
+
+if ($set_max_money == 1)
+{
+    // 前端 js 调用操作
+    $params = array(
+        'account'=>$account,
+        'max_money'=>(float)$_REQUEST['max_money'],
+        'func'=>'set_max_money',
+    );
+
+    $ret = curl_post(MPAY_URL . "mpay/gm_oper.php", $params);
+    if ($ret)
+    {
+        $ret = json_decode($ret, 1);
+        if ($ret && $ret['ret'] == 0)
+        {
+            $_SESSION["result"] = 'OK';
+            $request = $account."|".$_REQUEST['max_money'];
+            history_add("set_max_money", $request);
             die("OK");
         }
         else
@@ -118,7 +224,7 @@ else if (isset($_REQUEST['status']))
     $uid_cond = " and uid='$uid'";
     if ($uid == "admin")
         $uid_cond = '';
-    $sql = "select * from account where status=$status" . $uid_cond;
+    $sql = "select * from account where status=$status" . $uid_cond . " order by id limit $start_index, $page_size";
     $res = mysql_query($sql);
     while($row = mysql_fetch_assoc($res)){
         if ($row['status'] == '0')
@@ -135,6 +241,9 @@ else if (isset($_REQUEST['status']))
 
 $Smarty->assign(array(
     'data'=>$account_info,
+    'page'=>$page,
+    'page_size'=>$page_size,
+    'status'=>$_REQUEST['status'],
     )
 );
 ?>

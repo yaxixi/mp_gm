@@ -27,6 +27,42 @@ function delete_account(account){
             alert(result);
     });
 }
+
+function set_max_money(account, id){
+    var max_money = "";
+    if (document.getElementById('max_money'+id))
+        max_money = document.getElementById('max_money'+id).value;
+
+    console.log("set_max_money account : %s, id : %s, max_money : %s", account, id, max_money);
+    $.get(window.location.origin + "/mpay_gm/source/alipay_account.php?set_max_money=1&max_money=" + max_money + "&account=" + account, function(result){
+        var ret = "操作成功";
+        if (result == "OK")
+        {
+            alert(ret);
+            window.location = window.location.origin + "/mpay_gm/webroot/index.php?s=alipay_account&status=0";
+        }
+        else
+            alert(result);
+    });
+}
+
+function set_account_demo(account, id){
+    var demo = "";
+    if (document.getElementById('demo'+id))
+        demo = document.getElementById('demo'+id).value;
+
+    console.log("set_account_demo account : %s, id : %s, demo : %s", account, id, demo);
+    $.get(window.location.origin + "/mpay_gm/source/alipay_account.php?set_demo=1&demo=" + demo + "&account=" + account, function(result){
+        var ret = "操作成功";
+        if (result == "OK")
+        {
+            alert(ret);
+            window.location = window.location.origin + "/mpay_gm/webroot/index.php?s=alipay_account&status=0";
+        }
+        else
+            alert(result);
+    });
+}
 </script>
 
 <div class='input'>
@@ -36,33 +72,48 @@ function delete_account(account){
 	<input type="submit" value="查询">
 	</form>
 </div>
+<div class='input'>
+	<form method="POST">
+	支付宝账号：<input type="text" name="account">
+        支付宝ID: <input type="text" name="accountid">
+	<input type="submit" value="添加">
+	</form>
+</div>
 <div>
 </br>
 <h4>账号信息</h4>
 <table cellpadding="20" cellspacing="10">
 	<tr align="center">
+            <th>序号</th>
             <th>账号</th>
             <th>账号ID</th>
             <th>收款金额</th>
+            <th>最大收款金额</th>
             <th>成功率</th>
             <th>状态</th>
+            <th>备注</th>
             <th>操作</th>
 	</tr>
 	<{foreach from = $data key=key item = val}>
             <tr align="center">
+                <td><{$page*$page_size-$page_size+$key+1}></td>
                 <td><span id="account"><{$val.account}></span></td>
                 <td><{$val.accountid}></td>
                 <td><{$val.money}></td>
+                <td><input type="text" id="max_money<{$key}>" name="max_money" placeholder="<{$val.max_money}>"></td>
                 <td><{$val.charge_count}>/<{$val.precharge_count}>(<{$val.suc}>)</td>
                 <td><{$val.status_str}></td>
+                <td><textarea id="demo<{$key}>" name="demo" placeholder="<{$val.demo}>"></textarea></td>
                 <{if $val.status == 0}>
-                <td><button type="button" onClick="operation('<{$val.account}>',1)">下架</button><button type="button" onClick="delete_account('<{$val.account}>')">删除</button></td>
+                <td><button type="button" onClick="operation('<{$val.account}>',1)">下架</button><button type="button" onClick="delete_account('<{$val.account}>')">删除</button><button type="button" onClick="set_max_money('<{$val.account}>',<{$key}>)">设置最大金额</button><button type="button" onClick="set_account_demo('<{$val.account}>',<{$key}>)">设置备注</button></td>
                 <{else}>
-                    <td><button type="button" onClick="operation('<{$val.account}>',0)">上架</button><button type="button" onClick="delete_account('<{$val.account}>')">删除</button></td>
+                <td><button type="button" onClick="operation('<{$val.account}>',0)">上架</button><button type="button" onClick="delete_account('<{$val.account}>')">删除</button><button type="button" onClick="set_max_money('<{$val.account}>',<{$key}>)">设置最大金额</button><button type="button" onClick="set_account_demo('<{$val.account}>',<{$key}>)">设置备注</button></td>
                 <{/if}>
             </tr>
 	<{/foreach}>
 </table>
 </div>
+<{ assign var="url" value="s=alipay_account&status="|cat:$status }>
+<{ $page_size|page_ex:$page:$url }>
 
 <{include file="./footer.tpl"}>

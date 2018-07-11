@@ -7,16 +7,26 @@ check_login();
 
 $uid = $_SESSION[SESSION_USERID];
 $orderid = $_REQUEST["orderid"];
+$vendor_orderid = $_REQUEST["vendor_orderid"];
+$account = $_REQUEST['account'];
 $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
 
 db('mpay');
 
 $page_size = 20;
 $start_index = ($page - 1) * $page_size;
-$sql_cond = "order by time desc limit $start_index, $page_size";
+$sql_cond = "";
+if ($account)
+    $sql_cond = "where precharge.account='$account' ";
+$sql_cond = $sql_cond . "order by time desc limit $start_index, $page_size";
 if ($orderid)
 {
     $sql_cond = "where precharge.tradeno='$orderid'";
+}
+
+if ($vendor_orderid)
+{
+    $sql_cond = "where precharge.orderid='$vendor_orderid'";
 }
 
     // 查询订单信息
@@ -26,15 +36,15 @@ if ($orderid)
         $row['time'] = date('Y/m/d H:i', $row['time']);
         $row['price'] = $row['charge_price'];
         if ($row['status'] == "0")
-            $row['status'] = "未支付";
+            $row['status'] = "未完成";
         else if ($row['charge_status'] == "1")
         {
-            $row['status'] = "支付已关闭";
+            $row['status'] = "已关闭";
             $row['chargeTime'] = date('Y/m/d H:i', $row['chargeTime']);
         }
-        else if ($row['charge_status'] === "0")
+        else if ($row['charge_status'] == "0")
         {
-            $row['status'] = "已支付";
+            $row['status'] = "已完成";
             $row['chargeTime'] = date('Y/m/d H:i', $row['chargeTime']);
         }
         $order_arr[] = $row;
@@ -46,6 +56,7 @@ $Smarty->assign(array(
     'order_data'=>$order_arr,
     'page'=>$page,
     'page_size'=>$page_size,
+    'account'=>$account,
     )
 );
 ?>

@@ -2,25 +2,29 @@
 <div class='input'>
 	<form method="POST">
         支付宝账号：<input type="text" name="account">
-	日期：<script type="text/javascript" src="../js/calendar.js"></script>
-            <input type="text" id="date" name="date" value="" onclick="calendar.show(this);" size="11" maxlength="11" readonly="readonly" />
 	<input type="submit" value="查询">
 	</form>
 </div>
 <div>
 </br>
-<h4>帐号充值数据</h4>
+<h4>帐号转款数据</h4>
 <table cellpadding="20" cellspacing="10">
 	<tr align="center">
-	    <th>日期</th>
             <th>账号</th>
-	    <th>充值金额</th>
+	    <{foreach from = $dateList key=key item = date}>
+                <th><{$date}></th>
+            <{/foreach}>
 	</tr>
 	<{foreach from = $data key=key item = val}>
             <tr align="center">
-                <td><{$val.date}></span></td>
-                <td><{$val.account}></td>
-                <td><{$val.total_price}></td>
+                <td><{$key}></td>
+                <{foreach from = $dateList key=index item = date}>
+                <{if $val[$date] > 0 }>
+                        <td><{$val[$date]}></td>
+                    <{else}>
+                        <td>0</td>
+                    <{/if}>
+                <{/foreach}>
             </tr>
 	<{/foreach}>
 </table>
