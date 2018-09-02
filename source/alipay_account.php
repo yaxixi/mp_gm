@@ -183,6 +183,7 @@ if ($set_max_money == 1)
 db('mpay');
 $today = date("Y-m-d");
 $time = strtotime($today . " 00:00:00");
+$cur_time = time();
 $accountSuc = [];
 if ($account)
 {
@@ -202,40 +203,61 @@ if ($account)
 }
 else if (isset($_REQUEST['status']))
 {
-    $sql = "select count(1) as num, account from precharge where time >= $time group by account";
-    $res = mysql_query($sql);
-    $accountMap = array();
-    $accountSuc = array();
-    $acountCharge = array();
-    while($row = mysql_fetch_assoc($res)){
-        $accountMap[$row['account']] = $row['num'];
-    }
-
-    $sql = "select count(1) as num, account from precharge where status=1 and time >= $time group by account";
-    $res = mysql_query($sql);
-    while($row = mysql_fetch_assoc($res)){
-        $acountCharge[$row['account']] = $row['num'];
-        if ((int)$accountMap[$row['account']] > 0)
-            $accountSuc[$row['account']] = (float)$row['num'] / (float)$accountMap[$row['account']];
-    }
-    //echo json_encode($accountMap) . "   " . json_encode($accountSuc);
-
     $status = $_REQUEST['status'];
     $uid_cond = " and uid='$uid'";
     if ($uid == "admin")
         $uid_cond = '';
     $sql = "select * from account where status=$status" . $uid_cond . " order by id limit $start_index, $page_size";
     $res = mysql_query($sql);
+    $refresh_rate = false;
+    $count = 0;
     while($row = mysql_fetch_assoc($res)){
         if ($row['status'] == '0')
             $row['status_str'] = '有效';
         else
             $row['status_str'] = '无效';
 
-        $row['precharge_count'] = (int)$accountMap[$row['account']];
-        $row['suc'] = round($accountSuc[$row['account']], 3);
-        $row['charge_count'] = (int)$acountCharge[$row['account']];
         $account_info[] = $row;
+
+        if ($count == 0) {
+            $count = 1;
+            if ((int)$row['rate_time'] + 300 <= $cur_time) {
+                $refresh_rate = true;
+            }
+        }
+    }
+
+    if ($refresh_rate) {
+        $sql = "update account set rate_time = $cur_time";
+        mysql_query($sql);
+
+        $sql = "select count(1) as num, account from precharge where time >= $time group by account";
+        $res = mysql_query($sql);
+        $accountMap = array();
+        $accountSuc = array();
+        $acountCharge = array();
+        while($row = mysql_fetch_assoc($res)){
+            $accountMap[$row['account']] = $row['num'];
+        }
+
+        $sql = "select count(1) as num, account from precharge where status=1 and time >= $time group by account";
+        $res = mysql_query($sql);
+        while($row = mysql_fetch_assoc($res)){
+            $acountCharge[$row['account']] = $row['num'];
+            if ((int)$accountMap[$row['account']] > 0)
+                $accountSuc[$row['account']] = (float)$row['num'] / (float)$accountMap[$row['account']];
+        }
+        //echo json_encode($accountMap) . "   " . json_encode($accountSuc);
+
+        foreach($accountMap as $account=>$value) {
+            $precharge_count = (int)$value;
+            $charge_count = (int)$acountCharge[$account];
+            $suc = (float)round($accountSuc[$account], 3);
+            $rate_str = sprintf("%d/%d(%f)", $charge_count, $precharge_count, $suc);
+
+            $sql = "update account set rate = '$rate_str' where account='$account'";
+            mysql_query($sql);
+        }
     }
 }
 

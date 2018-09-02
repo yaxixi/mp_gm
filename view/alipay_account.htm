@@ -1,7 +1,7 @@
 <{include file="./header.tpl"}>
 <script LANGUAGE="JavaScript">
 function operation(account, oper){
-    console.log("account : %s, oper : %s", account, oper);
+    console.log("account : %s, oper : %s", account, 3);
     $.get(window.location.origin + "/mpay_gm/source/alipay_account.php?oper=" + oper + "&account=" + account, function(result){
         var ret = "操作成功";
         if (result == "OK")
@@ -101,7 +101,7 @@ function set_account_demo(account, id){
                 <td><{$val.accountid}></td>
                 <td><{$val.money}></td>
                 <td><input type="text" id="max_money<{$key}>" name="max_money" placeholder="<{$val.max_money}>"></td>
-                <td><{$val.charge_count}>/<{$val.precharge_count}>(<{$val.suc}>)</td>
+                <td><{$val.rate}></td>
                 <td><{$val.status_str}></td>
                 <td><textarea id="demo<{$key}>" name="demo" placeholder="<{$val.demo}>"></textarea></td>
                 <{if $val.status == 0}>

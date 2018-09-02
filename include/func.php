@@ -162,7 +162,7 @@ function processing($result,$str="操作",$url,$showmsg="0") {
 function query_check($result,$str="操作") {
 	if (!$result) {
 		unset($result);
-		echo "<script type=\"text/javascript\">alert('".$str."失败！".addslashes(mysql_error())."');history.go(-1);</script>";
+		echo "<script type=\"text/javascript\">alert('".$str."失败！".mysql_error()."');history.go(-1);</script>";
 		exit;
 	}
 }
@@ -366,10 +366,11 @@ function history_add($op,$request) {
 	$time = date("Y-m-d H:i:s");
 	$time_limit = 0;
 	if ($time_limit) {
-		$query = "insert into history(admin_id,admin_username,op,request,response,time,time_limit) values 	('$admin_id','$admin_username','$op','$request','$result','$time','$time_limit')";
+		$query = "insert into history(admin_id,admin_username,op,request,response,time,time_limit) values('$admin_id','$admin_username','$op','$request','$result','$time','$time_limit')";
 	} else{
-		$query = "insert into history(admin_id,admin_username,op,request,response,time) values 	('$admin_id','$admin_username','$op','$request','$result','$time')";
+		$query = "insert into history(admin_id,admin_username,op,request,response,time) values('$admin_id','$admin_username','$op','$request','$result','$time')";
 	}
+
 	$result = mysql_query($query,$conn);
 	query_check($result,"加入历史记录");
 }

@@ -1,7 +1,74 @@
 <{include file="./header.tpl"}>
 
+<script LANGUAGE="JavaScript">
+function set_rate(uid, id){
+    var rate = "";
+    if (document.getElementById('rate'+id))
+        rate = document.getElementById('rate'+id).value;
+
+    console.log("set_rate uid : %s, id : %s, rate : %s", uid, id, rate);
+	if (rate == "")
+	{
+		alert("费率不能为空！");
+		return;
+	}
+    $.get(window.location.origin + "/mpay_gm/source/vendor.php?rate=" + rate + "&uid=" + uid, function(result){
+        var ret = "操作成功";
+        if (result == "OK")
+        {
+            alert(ret);
+            window.location = window.location.origin + "/mpay_gm/webroot/index.php?s=vendor";
+        }
+        else
+            alert(result);
+    });
+}
+
+function add_balance(uid, id){
+    var add_value = "";
+    if (document.getElementById('add_value'+id))
+        add_value = document.getElementById('add_value'+id).value;
+
+    console.log("add_balance uid : %s, id : %s, add_value : %s", uid, id, add_value);
+	if (add_value == "")
+	{
+		alert("增加金额不能为空！");
+		return;
+	}
+    $.get(window.location.origin + "/mpay_gm/source/vendor.php?add_balance=" + add_value + "&uid=" + uid, function(result){
+        var ret = "操作成功";
+        if (result == "OK")
+        {
+            alert(ret);
+            window.location = window.location.origin + "/mpay_gm/webroot/index.php?s=vendor";
+        }
+        else
+            alert(result);
+    });
+}
+</script>
+
 <div>
-    <h4>用户余额: <{$balance}></h4>
+</br>
+<h4>用户信息</h4>
+<table cellpadding="20" cellspacing="10">
+	<tr align="center">
+            <th>用户名</th>
+			<th>费率</th>
+            <th>余额</th>
+			<th>增加金额</th>
+			<th>操作</th>
+	</tr>
+	<{foreach from = $data_arr key=key item = val}>
+            <tr align="center">
+                <td><{$val.vendor_name}></td>
+				<td><input type="text" id="rate<{$key}>" name="rate" placeholder="<{$val.rate}>"></td>
+                <td><{$val.balance}></td>
+                <td><input type="text" id="add_value<{$key}>" name="add_value" placeholder="0"></td>
+				<td><button type="button" onClick="set_rate('<{$val.uid}>',<{$key}>)">修改费率</button><button type="button" onClick="add_balance('<{$val.uid}>',<{$key}>)">增加余额</button></td>
+            </tr>
+	<{/foreach}>
+</table>
 </div>
 
 <{include file="./footer.tpl"}>

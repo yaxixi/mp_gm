@@ -25,14 +25,14 @@ $conninfo = array(//管理数据库
 	"password" => "usbw",
 );*/
 $conninfo = array(//管理数据库
-	"host" => "mpay.yituozhifu.com",
+	"host" => "localhost",
 	"username" => "yaxixi",
 	"password" => "1234rewq",
 );
 
 $db_map=array(
 	'tongji'=>array(
-            'host'=>'mpay.yituozhifu.com',
+            'host'=>'localhost',
             'user'=>'yaxixi',
             'pass'=>'1234rewq',
             'dtbs'=>'tongji',
@@ -47,7 +47,7 @@ $db_map=array(
             'charts'=>'utf8',
         )*/
 	'mpay'=>array(
-            'host'=>'mpay.yituozhifu.com',
+            'host'=>'localhost',
             'user'=>'yaxixi',
             'pass'=>'1234rewq',
             'dtbs'=>'mpay',
@@ -123,7 +123,7 @@ define('SITE_URL',CORE_DIR.'/webroot');
 define('COMM_PATH', FUNCTION_DIR."/php_compress/comm.txt");//comm.txt 文件路径
 define('MAP_PATH', FUNCTION_DIR."/php_compress/map.txt");//map.txt 文件路径
 define('SEND_PATH', FUNCTION_DIR."/php_compress/send.lua");//send.lua 文件路径
-define('MPAY_URL', "http://mpay.yituozhifu.com/");
+define('MPAY_URL', "http://127.0.0.1/");
 
 $now = time();
 $today = date("Y-m-d");

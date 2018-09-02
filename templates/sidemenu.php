@@ -20,6 +20,7 @@
     d.config.target = "mainframe";
     d.add(1,-1,<?php echo "'".TITLE."'" ?>,'welcome.php');
     d.add(++treeId,1,'运营数据');
+    <?php if(show_a($priv,'priv_vendor_readonly')) {?>d.add(subId++,treeId,'用户信息','webroot/index.php?s=vendor_readonly');<?php }?>
     <?php if(show_a($priv,'priv_vendor')) {?>d.add(subId++,treeId,'用户信息','webroot/index.php?s=vendor');<?php }?>
     <?php if(show_a($priv,'tongji_main')) {?>d.add(subId++,treeId,'转款数据','webroot/index.php?s=dau');<?php }?>
     <?php if(show_a($priv,'tongji_main')) {?>d.add(subId++,treeId,'每日数据','webroot/index.php?s=account_charge');<?php }?>

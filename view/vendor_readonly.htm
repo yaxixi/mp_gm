@@ -1,0 +1,22 @@
+<{include file="./header.tpl"}>
+
+<div>
+</br>
+<h4>用户信息</h4>
+<table cellpadding="20" cellspacing="10">
+	<tr align="center">
+            <th>用户名</th>
+			<th>费率</th>
+            <th>余额</th>
+	</tr>
+	<{foreach from = $data_arr key=key item = val}>
+            <tr align="center">
+                <td><{$val.vendor_name}></td>
+				<td><{$val.rate}></td>
+                <td><{$val.balance}></td>
+            </tr>
+	<{/foreach}>
+</table>
+</div>
+
+<{include file="./footer.tpl"}>
