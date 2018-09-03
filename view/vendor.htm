@@ -54,6 +54,7 @@ function add_balance(uid, id){
 <table cellpadding="20" cellspacing="10">
 	<tr align="center">
             <th>用户名</th>
+            <th>用户uid</th>
 			<th>费率</th>
             <th>余额</th>
 			<th>增加金额</th>
@@ -62,6 +63,7 @@ function add_balance(uid, id){
 	<{foreach from = $data_arr key=key item = val}>
             <tr align="center">
                 <td><{$val.vendor_name}></td>
+                <td><{$val.uid}></td>
 				<td><input type="text" id="rate<{$key}>" name="rate" placeholder="<{$val.rate}>"></td>
                 <td><{$val.balance}></td>
                 <td><input type="text" id="add_value<{$key}>" name="add_value" placeholder="0"></td>

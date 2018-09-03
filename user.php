@@ -1,5 +1,6 @@
 <?php
 require_once "include/config.php";
+require_once 'include/network.php';
 check_login();
 
 if (isset($_REQUEST['ac'])) {
@@ -73,7 +74,6 @@ function add_post() {
 	$username = str_html($_POST['username']);
 	$password = str_html($_POST['password']);
 	$realname = str_html($_POST['realname']);
-    $uid = str_html($_POST['uid']);
 	$email = str_html($_POST['email']);
 	$time = date("Y-m-d H:i:s");
 	$flag = 1;
@@ -84,11 +84,28 @@ function add_post() {
 	if (strlen($password) < 6) {
 		alert_back("新密码不符合规定！");
     }
-    if (!$uid) {
-		alert_back("用户ID不能为空！");
-	}
+
+    $params = array(
+        'vendor_name'=>$realname,
+        'func'=>'add_vendor',
+    );
+    $ret = curl_post(MPAY_URL . "mpay/gm_oper.php", $params);
+    if ($ret)
+    {
+        $ret = json_decode($ret, 1);
+        if ($ret && $ret['ret'] == 0)
+        {
+            $uid = $ret['uid'];
+            $token = $ret['token'];
+        }
+        else
+        {
+            alert_back("生成用户UID失败！");
+        }
+    }
+
 	$password = md5(md5($password).$salt);
-	$query = "insert into user(username,password,realname,flag,salt,uid) values ('$username','$password','$realname','$flag','$salt','$uid')";
+	$query = "insert into user(username,password,realname,flag,salt,uid,token) values ('$username','$password','$realname','$flag','$salt','$uid','$token')";
 	$result = mysql_query($query);
 	processing($result,"添加","user.php");
 }

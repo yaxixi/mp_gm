@@ -15,18 +15,25 @@ db('mpay');
 
 $page_size = 20;
 $start_index = ($page - 1) * $page_size;
-$sql_cond = "";
-if ($account)
-    $sql_cond = "where precharge.account='$account' ";
-$sql_cond = $sql_cond . "order by time desc limit $start_index, $page_size";
-if ($orderid)
-{
-    $sql_cond = "where precharge.tradeno='$orderid'";
+$sql_cond = " and precharge.uid='$uid' ";
+if ($uid == 'admin')
+    $sql_cond = '';
+if ($account) {
+    $sql_cond = "where precharge.account='$account' " . $sql_cond . " order by time desc limit $start_index, $page_size";
 }
-
-if ($vendor_orderid)
+else if ($orderid)
 {
-    $sql_cond = "where precharge.orderid='$vendor_orderid'";
+    $sql_cond = "where precharge.tradeno='$orderid' " . $sql_cond;
+}
+else if ($vendor_orderid)
+{
+    $sql_cond = "where precharge.orderid='$vendor_orderid' " . $sql_cond;
+}
+else {
+    $sql_cond2 = " where precharge.uid='$uid' ";
+    if ($uid == 'admin')
+        $sql_cond2 = '';
+    $sql_cond = $sql_cond2 . "order by time desc limit $start_index, $page_size";
 }
 
     // 查询订单信息

@@ -18,6 +18,8 @@
 	<table cellpadding="0" cellspacing="0" width="100%" class="fix">
 		<tr class="infobg">
 			<th>用户名</th>
+            <th width="120">用户UID</th>
+            <th width="120">token</th>
 			<th width="120">姓名</th>
 			<th width="140">最后登录时间</th>
 			<th width="120">最后登录IP</th>
@@ -27,7 +29,9 @@
 		while ($row = mysql_fetch_array($result)) {
 		?>
 		<tr>
-			<td><?php echo $row['username'];?></td>
+            <td><?php echo $row['username'];?></td>
+            <td align="center"><?php echo $row['uid'];?></td>
+            <td align="center"><?php echo $row['token'];?></td>
 			<td align="center"><?php echo $row['realname'];?></td>
 			<td align="center"><?php echo $row['login_time'];?></td>
 			<td align="center"><?php echo $row['login_ip'];?></td>

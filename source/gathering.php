@@ -21,6 +21,7 @@ $start_index = ($page - 1) * $page_size;
 if ($refresh_warning)
 {
     $params = array(
+        'uid'=>$uid,
         'func'=>'charge_exception_count',
     );
     $ret = curl_post(MPAY_URL . "mpay/gm_oper.php", $params);
@@ -169,6 +170,8 @@ else if ($sql_cond != "")
 
 if ($sql_cond != "")
 {
+    if ($uid != 'admin')
+        $sql_cond = $sql_cond . " and uid='$uid'";
     $sql = "select * from charge_exception where " . $sql_cond . " order by clientTime desc limit $start_index, $page_size";
     $res = mysql_query($sql);
 

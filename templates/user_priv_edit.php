@@ -46,11 +46,9 @@ function clearall(obj) {
 			<tr>
 				<td id="gmgj">
                     <input type="checkbox" name="priv[]" value="tongji_main"<?php show_checked($priv,'tongji_main');?> />
-					运营数据查询
+					运营数据
 					<input type="checkbox" name="priv[]" value="priv_gm_info"<?php show_checked($priv,'priv_gm_info');?> />
-					GM工具操作
-					<input type="checkbox" name="priv[]" value="log_manage"<?php show_checked($priv,'log_manage');?> />
-					日志查询
+					客服工具
                     <input type="checkbox" name="priv[]" value="priv_vendor_readonly"<?php show_checked($priv,'priv_vendor_readonly');?> />
 					用户信息
                     <input type="checkbox" name="priv[]" value="priv_vendor"<?php show_checked($priv,'priv_vendor');?> />

@@ -6,12 +6,14 @@
 <table cellpadding="20" cellspacing="10">
 	<tr align="center">
             <th>用户名</th>
+            <th>用户uid</th>
 			<th>费率</th>
             <th>余额</th>
 	</tr>
 	<{foreach from = $data_arr key=key item = val}>
             <tr align="center">
                 <td><{$val.vendor_name}></td>
+                <td><{$val.uid}></td>
 				<td><{$val.rate}></td>
                 <td><{$val.balance}></td>
             </tr>

@@ -16,11 +16,6 @@ function juge(theform) {
 		theform.password.focus();
 		return false;
 	}
-    if (theform.uid.value == "") {
-		alert("请输入用户ID！");
-		theform.uid.focus();
-		return false;
-	}
 	if (theform.password.value.length < 6) {
 		alert("密码长度至少要6位！");
 		theform.password.focus();
@@ -49,10 +44,6 @@ function juge(theform) {
 			<tr>
 				<td align="right" width="140" class="infobg">姓名：</td>
 				<td><input type="text" name="realname" class="inpw" /></td>
-			</tr>
-            <tr>
-				<td align="right" width="140" class="infobg">用户UID：</td>
-				<td><input type="text" name="uid" class="inpw" /></td>
 			</tr>
 			<tr>
 				<td colspan="2"><div class="div_submit"><input type="submit" value="确定" class="btn" /> <input type="reset" value="重置" class="btn" /></div></td>

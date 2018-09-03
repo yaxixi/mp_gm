@@ -53,8 +53,9 @@ if (isset($_REQUEST["oper"]))
 
 if ($accountid != '')
 {
-    if ($uid == "admin")
-        $uid = 'A9D9113YR003';
+    $uid = trim($_REQUEST['uid']);
+    if ($uid == '')
+        $uid = $_SESSION[SESSION_USERID];
 
     // 前端 js 调用操作
     $params = array(
@@ -80,7 +81,7 @@ if ($accountid != '')
         else
         {
             if ($ret && $ret['msg'])
-                die($ret['msg']);
+                alert_back($ret['msg']);
             else
                 die('Operation failed.');
         }
